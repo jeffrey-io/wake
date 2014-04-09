@@ -6,6 +6,7 @@ import io.jeffrey.web.sources.Source;
 import io.jeffrey.web.sources.TagDetector;
 
 import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,7 +37,7 @@ public class DiskLoaderStage extends Stage {
       return null;
     }
     try {
-      Source source = new TagDetector(new BangedSource(inputFile));
+      Source source = new TagDetector(new BangedSource(inputFile.getName(), new FileReader(inputFile)));
       if (name.endsWith(".markdown")) {
         source =  new MarkdownFilteredSource(source, "body");
       }

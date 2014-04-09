@@ -2,6 +2,7 @@ package io.jeffrey.web.sources;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -31,13 +32,11 @@ public class HashMapSource extends Source {
     }
 
     @Override
-    public void itemize(Consumer<String> itemizer) {
-        for (String key : data.keySet()) {
-            itemizer.accept(key);
-        }
+    public void populateDomain(Set<String> domain) {
+       domain.addAll(data.keySet());
     }
 
     @Override
-    public void itemize(BiConsumer<String, Object> inject) {
+    public void walkComplex(BiConsumer<String, Object> injectComplex) {
     }
 }

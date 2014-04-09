@@ -3,8 +3,8 @@ package io.jeffrey.web.sources;
 import com.github.jknack.handlebars.Handlebars;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * Created by jeffrey on 3/18/2014.
@@ -25,13 +25,13 @@ public class TopologizedSource extends Source {
   }
 
   @Override
-  public void itemize(Consumer<String> itemizer) {
-    source.itemize(itemizer);
+  public void populateDomain(Set<String> domain) {
+    source.populateDomain(domain);
   }
 
   @Override
-  public void itemize(BiConsumer<String, Object> inject) {
-    source.itemize(inject);
-    inject.accept("topology", topology);
+  public void walkComplex(BiConsumer<String, Object> injectComplex) {
+    source.walkComplex(injectComplex);
+    injectComplex.accept("topology", topology);
   }
 }

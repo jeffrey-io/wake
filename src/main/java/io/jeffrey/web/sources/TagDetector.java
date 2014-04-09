@@ -2,9 +2,9 @@ package io.jeffrey.web.sources;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,13 +51,13 @@ public class TagDetector extends Source {
   }
 
   @Override
-  public void itemize(Consumer<String> itemizer) {
-    source.itemize(itemizer);
+  public void populateDomain(Set<String> domain) {
+    source.populateDomain(domain);
   }
 
   @Override
-  public void itemize(BiConsumer<String, Object> inject) {
-    source.itemize(inject);
-    inject.accept("tags", tags);
+  public void walkComplex(BiConsumer<String, Object> injectComplex) {
+    source.walkComplex(injectComplex);
+    injectComplex.accept("tags", tags);
   }
 }

@@ -3,12 +3,8 @@ package io.jeffrey.web.sources;
 import org.markdown4j.Markdown4jProcessor;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * Created by jeffrey on 3/18/2014.
@@ -39,11 +35,11 @@ public class MarkdownFilteredSource extends Source {
   }
 
   @Override
-  public void itemize(Consumer<String> itemizer) {
-    source.itemize(itemizer);
+  public void populateDomain(Set<String> domain) {
+     source.populateDomain(domain);
   }
   @Override
-  public void itemize(BiConsumer<String, Object> inject) {
-    source.itemize(inject);
+  public void walkComplex(BiConsumer<String, Object> injectComplex) {
+    source.walkComplex(injectComplex);
   }
 }

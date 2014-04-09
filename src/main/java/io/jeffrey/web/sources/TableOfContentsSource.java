@@ -1,7 +1,7 @@
 package io.jeffrey.web.sources;
 
+import java.util.Set;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * Created by jeffrey on 3/19/2014.
@@ -22,13 +22,13 @@ public class TableOfContentsSource extends Source {
   }
 
   @Override
-  public void itemize(Consumer<String> itemizer) {
-    source.itemize(itemizer);
-    itemizer.accept("toc");
+  public void populateDomain(Set<String> domain) {
+    source.populateDomain(domain);
+    domain.add("toc");
   }
 
   @Override
-  public void itemize(BiConsumer<String, Object> inject) {
-    source.itemize(inject);
+  public void walkComplex(BiConsumer<String, Object> injectComplex) {
+    source.walkComplex(injectComplex);
   }
 }
