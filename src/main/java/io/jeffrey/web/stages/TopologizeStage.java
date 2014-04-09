@@ -1,7 +1,7 @@
 package io.jeffrey.web.stages;
 
 import io.jeffrey.web.sources.Source;
-import io.jeffrey.web.sources.TopologizedSource;
+import io.jeffrey.web.sources.ComplexMapInjectedSource;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -30,7 +30,7 @@ public class TopologizeStage extends Stage {
     }
     ArrayList<Source> next = new ArrayList<>();
     for (Source random : attachTo) {
-      next.add(new TopologizedSource(random, topology.compile(random)));
+      next.add(new ComplexMapInjectedSource(random, "topology", topology.compile(random)));
     }
     return next;
   }

@@ -8,15 +8,27 @@ import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 /**
- * Created by jeffrey on 3/18/2014.
+ * This takes a file and then parses out the she-bangs (#!) which are used for injecting key value pairs
+ * <p>
+ * TODO: factor into "ReaderSource" and do the line by line analysis here
  */
 public class BangedSource extends Source {
    private static final String DOT = Pattern.quote(".");
    private final HashMap<String, String> values;
    private int currentLineNumber;
 
+   /**
+    * construct
+    *
+    * @param filename the name of the source
+    * @param input    the reader that provides the source
+    * @throws IOException
+    */
    public BangedSource(String filename, Reader input) throws IOException {
-      String name = filename.split(DOT)[0];
+      String[] splitName = filename.split(DOT);
+      // TODO: change to remove the extention rather than cutting this up
+      // TODO: verify the extension makes sense
+      String name = splitName[0];
       this.values = new HashMap<>();
       values.put("name", name);
       values.put("url", name + ".html");
@@ -39,14 +51,19 @@ public class BangedSource extends Source {
       }
    }
 
-   private void indexBang(String unparsedAssignment) {
-      int kEq = unparsedAssignment.indexOf('=');
+   /**
+    * take a line of the form A=B and then inject the value 'B' at key 'A'
+    *
+    * @param assignmentRaw
+    */
+   private void indexBang(String assignmentRaw) {
+      int kEq = assignmentRaw.indexOf('=');
       if (kEq < 0)
-         throw new SourceException("there should be an '=' in '" + unparsedAssignment + "' on line " + currentLineNumber);
-      String key = unparsedAssignment.substring(0, kEq).trim().toLowerCase();
+         throw new SourceException("there should be an '=' in '" + assignmentRaw + "' on line " + currentLineNumber);
+      String key = assignmentRaw.substring(0, kEq).trim().toLowerCase();
       if (key.length() == 0)
-         throw new SourceException("there should be at least one character before the '=' in '" + unparsedAssignment + "' on line " + currentLineNumber);
-      String val = unparsedAssignment.substring(kEq + 1).trim();
+         throw new SourceException("there should be at least one character before the '=' in '" + assignmentRaw + "' on line " + currentLineNumber);
+      String val = assignmentRaw.substring(kEq + 1).trim();
       values.put(key, val);
    }
 

@@ -4,31 +4,31 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 
 /**
- * Created by jeffrey on 3/19/2014.
+ * TODO: make it work
  */
 public class TableOfContentsSource extends Source {
-  private Source source;
+   private Source source;
 
-  public TableOfContentsSource(final Source source) {
-    this.source = source;
-  }
-  @Override
-  public String get(String key) {
-    if ("toc".equalsIgnoreCase("key")) {
-      String body = source.get("key");
-      return "TOCMadeHere";
-    }
-    return source.get(key);
-  }
+   public TableOfContentsSource(final Source source) {
+      this.source = source;
+   }
 
-  @Override
-  public void populateDomain(Set<String> domain) {
-    source.populateDomain(domain);
-    domain.add("toc");
-  }
+   @Override
+   public String get(String key) {
+      if ("toc".equalsIgnoreCase("key")) {
+         throw new SourceException("I have not yet done this, sorry");
+      }
+      return source.get(key);
+   }
 
-  @Override
-  public void walkComplex(BiConsumer<String, Object> injectComplex) {
-    source.walkComplex(injectComplex);
-  }
+   @Override
+   public void populateDomain(Set<String> domain) {
+      source.populateDomain(domain);
+      domain.add("toc");
+   }
+
+   @Override
+   public void walkComplex(BiConsumer<String, Object> injectComplex) {
+      source.walkComplex(injectComplex);
+   }
 }

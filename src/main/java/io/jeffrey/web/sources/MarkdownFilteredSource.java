@@ -7,39 +7,47 @@ import java.util.*;
 import java.util.function.BiConsumer;
 
 /**
- * Created by jeffrey on 3/18/2014.
+ * Apply markdown to the given keys
  */
 public class MarkdownFilteredSource extends Source {
-  private final Source source;
-  private final HashSet<String> markdownKeys;
-  private Markdown4jProcessor markdown;
+   private final Markdown4jProcessor markdown;
+   private final Source source;
+   private final HashSet<String> markdownKeys;
 
-  public MarkdownFilteredSource(final Source source, String... extraKeys) {
-    this.markdown = new Markdown4jProcessor();
-    this.source = source;
-    this.markdownKeys = new HashSet<>();
-    markdownKeys.add("body");
-    for (String key : extraKeys) markdownKeys.add(key);
-  }
-
-  @Override
-  public String get(String key) {
-    if (markdownKeys.contains(key)) {
-      try {
-        return markdown.process(source.get(key));
-      } catch (IOException impossible) {
-        throw new RuntimeException(impossible);
+   /**
+    * Apply markdown formatting to the given source for the given keys specified in keys
+    * @param source
+    * @param keys
+    */
+   public MarkdownFilteredSource(final Source source, String... keys) {
+      this.markdown = new Markdown4jProcessor();
+      this.source = source;
+      this.markdownKeys = new HashSet<>();
+      markdownKeys.add("body");
+      for (String key : keys) {
+         markdownKeys.add(key);
       }
-    }
-    return source.get(key);
-  }
+   }
 
-  @Override
-  public void populateDomain(Set<String> domain) {
-     source.populateDomain(domain);
-  }
-  @Override
-  public void walkComplex(BiConsumer<String, Object> injectComplex) {
-    source.walkComplex(injectComplex);
-  }
+   @Override
+   public String get(String key) {
+      if (markdownKeys.contains(key)) {
+         try {
+            return markdown.process(source.get(key));
+         } catch (IOException impossible) {
+            throw new RuntimeException(impossible);
+         }
+      }
+      return source.get(key);
+   }
+
+   @Override
+   public void populateDomain(Set<String> domain) {
+      source.populateDomain(domain);
+   }
+
+   @Override
+   public void walkComplex(BiConsumer<String, Object> injectComplex) {
+      source.walkComplex(injectComplex);
+   }
 }

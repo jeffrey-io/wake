@@ -3,13 +3,16 @@ package io.jeffrey.web;
 import io.jeffrey.web.sources.HashMapSource;
 import io.jeffrey.web.sources.Source;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.HashSet;
 
 /**
  * Created by jeffrey on 4/8/14.
  */
-public class BasicTest {
+public class TestingBase {
 
    private static String lastTest = "?";
 
@@ -64,5 +67,9 @@ public class BasicTest {
             throw new AssertionError("itemization lacked '" + keyToCheck + "'");
          }
       }
+   }
+
+   protected Reader readerize(String value) {
+      return new InputStreamReader(new ByteArrayInputStream(value.getBytes()));
    }
 }

@@ -1,11 +1,11 @@
 package io.jeffrey.web.sources;
 
-import io.jeffrey.web.BasicTest;
+import io.jeffrey.web.TestingBase;
 
 /**
  * Created by jeffrey on 4/8/14.
  */
-public class ApplyTemplateBodySourceTest extends BasicTest {
+public class ApplyTemplateBodySourceTest extends TestingBase {
 
    public void testTemplateApplicationResults() {
       HashMapSource data = createVerySimpleSource();
