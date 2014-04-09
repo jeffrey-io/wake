@@ -9,12 +9,12 @@ import java.util.Collections;
 import java.util.HashMap;
 
 /**
- * Created by jeffrey on 3/19/2014.
+ * Filters out the snippets and then injects them into every non-snippet source
  */
-public class SnippetInjector extends Stage {
+public class SnippetInjectorStage extends Stage {
    private final Stage prior;
 
-   public SnippetInjector(final Stage prior) {
+   public SnippetInjectorStage(final Stage prior) {
       this.prior = prior;
    }
 

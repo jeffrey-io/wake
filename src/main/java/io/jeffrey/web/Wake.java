@@ -46,13 +46,13 @@ public class Wake {
       // sort them for giggles
       SortByOrderStage sorted = new SortByOrderStage(raw);
       // inject the topology (connect the pages together in seemingly random ways)
-      TopologizeStage withTopology = new TopologizeStage(sorted);
+      InjectTopologyStage withTopology = new InjectTopologyStage(sorted);
       // inject snippets
-      SnippetInjector withSnippets = new SnippetInjector(withTopology);
+      SnippetInjectorStage withSnippets = new SnippetInjectorStage(withTopology);
       // put templates into place
       TemplateCrossStage withTemplates = new TemplateCrossStage(withSnippets);
       // remove snippets
-      SnippetInjector filterOutSnippets = new SnippetInjector(withTemplates);
+      SnippetInjectorStage filterOutSnippets = new SnippetInjectorStage(withTemplates);
       HtmlMaker maker = new HtmlMaker(output);
       maker.make(filterOutSnippets);
    }

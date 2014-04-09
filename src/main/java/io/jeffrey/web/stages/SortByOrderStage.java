@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.regex.Pattern;
 
 /**
- * Created by jeffrey on 3/19/2014.
+ * Sorts the sources by their order property
  */
 public class SortByOrderStage extends Stage {
   private final Stage priorStage;

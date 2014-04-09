@@ -2,10 +2,13 @@ package io.jeffrey.web;
 
 import io.jeffrey.web.sources.HashMapSource;
 import io.jeffrey.web.sources.Source;
+import io.jeffrey.web.stages.SetStage;
+import io.jeffrey.web.stages.Stage;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -69,7 +72,30 @@ public class TestingBase {
       }
    }
 
+   protected void assertEquals(String expected, String computed) {
+      logCheck("'" + computed + "'='" + expected + "'");
+      if (expected.equals(computed))
+         return;
+      throw new AssertionError("expected:'" + expected + "', but got '" + computed + "'");
+   }
+
    protected Reader readerize(String value) {
       return new InputStreamReader(new ByteArrayInputStream(value.getBytes()));
    }
+
+   protected Stage stageOf(Source... sources) {
+      HashSet<Source> set = new HashSet<>();
+      for (Source source : sources) set.add(source);
+      return new SetStage(set);
+   }
+
+   protected Source getExactlyOne(Stage stages) {
+      Collection<Source> sources = stages.sources();
+      logCheck("one size check:" + sources.size() + ":" + stages.getClass().getName());
+      if (1 != sources.size()) {
+         throw new AssertionError("size was not 1");
+      }
+      return sources.iterator().next();
+   }
+
 }

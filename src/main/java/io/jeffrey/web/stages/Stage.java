@@ -5,7 +5,7 @@ import io.jeffrey.web.sources.Source;
 import java.util.Collection;
 
 /**
- * Created by jeffrey on 3/18/2014.
+ * Defines a stage of the site generation
  */
 public abstract class Stage {
 
