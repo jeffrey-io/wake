@@ -17,9 +17,8 @@ import java.util.Collections;
 public class DiskLoaderStage extends Stage {
   private final Collection<Source> sources;
 
-  public DiskLoaderStage(String inputPath) {
+  public DiskLoaderStage(File inputPathRoot) {
     ArrayList<Source> _sources = new ArrayList<>();
-    File inputPathRoot = new File(inputPath);
     for (File inputFile : inputPathRoot.listFiles()) {
       Source source = loadIfPossible(inputFile);
       if (source == null) {

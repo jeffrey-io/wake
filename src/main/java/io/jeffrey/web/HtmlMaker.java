@@ -10,25 +10,27 @@ import java.io.FileWriter;
  * Created by jeffrey on 3/18/2014.
  */
 public class HtmlMaker {
-  public File outputPath;
+   public File outputPath;
 
-  public HtmlMaker(String outputPath) {
-    this.outputPath = new File(outputPath);
-  }
+   public HtmlMaker(File outputPath) {
+      this.outputPath = outputPath;
+   }
 
-  public void make(Stage stage) throws Exception {
-    for (Source source : stage.sources())
-      make(source);
-  }
+   public void make(Stage stage) throws Exception {
+      for (Source source : stage.sources()) {
+         make(source);
+      }
+   }
 
-  public void make(Source source) throws Exception {
-    String url = source.get("url");
-    String body = source.get("body");
-    File dest = new File(outputPath, url);
-    System.out.println(dest);
-    FileWriter writer = new FileWriter(dest);
-    writer.write(body);
-    writer.flush();
-    writer.close();
-  }
+   public void make(Source source) throws Exception {
+      String url = source.get("url");
+      String body = source.get("body");
+      File dest = new File(outputPath, url);
+      // TODO: deal with paths
+      System.out.println(dest);
+      FileWriter writer = new FileWriter(dest);
+      writer.write(body);
+      writer.flush();
+      writer.close();
+   }
 }
