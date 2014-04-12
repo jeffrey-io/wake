@@ -1,6 +1,7 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web;
-
-import io.jeffrey.web.sources.SourceException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by jeffrey on 4/9/14.
+ * This defines the configuration file parser and a way to place contractual obligations on the various things in the config
  */
 public class Config {
 

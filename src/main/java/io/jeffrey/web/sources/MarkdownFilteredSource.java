@@ -1,3 +1,6 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web.sources;
 
 import org.markdown4j.Markdown4jProcessor;
@@ -16,6 +19,7 @@ public class MarkdownFilteredSource extends Source {
 
    /**
     * Apply markdown formatting to the given source for the given keys specified in keys
+    *
     * @param source
     * @param keys
     */

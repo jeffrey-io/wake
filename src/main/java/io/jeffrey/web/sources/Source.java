@@ -1,8 +1,10 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web.sources;
 
 import java.util.Set;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * A source is basically a very special key value pair map where we lazily enable redefinition of the map.
@@ -20,20 +22,6 @@ public abstract class Source implements Comparable<Source> {
     * @return
     */
    public abstract String get(String key);
-
-   /**
-    * Get the given key from the source, but it must be present or else we abort the entire thing
-    *
-    * @param key
-    * @return
-    */
-   public String getRequired(String key) {
-      String value = get(key);
-      if (value == null) {
-         throw new SourceException("required field '" + key + "' not present");
-      }
-      return value;
-   }
 
    /**
     * Populate the given set with all the possible strings that can be acquired from the get() method

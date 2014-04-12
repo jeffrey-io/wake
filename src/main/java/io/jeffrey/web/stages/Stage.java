@@ -1,3 +1,6 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web.stages;
 
 import io.jeffrey.web.sources.Source;
@@ -9,5 +12,5 @@ import java.util.Collection;
  */
 public abstract class Stage {
 
-    public abstract Collection<Source> sources();
+   public abstract Collection<Source> sources();
 }

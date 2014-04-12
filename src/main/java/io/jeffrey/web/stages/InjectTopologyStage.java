@@ -1,3 +1,6 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web.stages;
 
 import io.jeffrey.web.sources.Source;
@@ -8,6 +11,7 @@ import java.util.regex.Pattern;
 
 /**
  * Defines a tree over the content
+ * TODO: document better
  */
 public class InjectTopologyStage extends Stage {
    private static final String SLASH = Pattern.quote("/");

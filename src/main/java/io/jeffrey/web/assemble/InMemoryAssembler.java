@@ -1,3 +1,6 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web.assemble;
 
 import io.jeffrey.web.sources.Source;

@@ -1,3 +1,6 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web.stages;
 
 import io.jeffrey.web.sources.BangedSource;
@@ -12,44 +15,46 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * Created by jeffrey on 3/18/2014.
+ * Defines a Stage that comes from disk; that is, this will load itmes from disk and treat them as sources.
+ * It also injects markdown and tag filter (which should be factored out)
+ * TODO: factor this since stages can come from multiple places
  */
 public class DiskLoaderStage extends Stage {
-  private final Collection<Source> sources;
+   private final Collection<Source> sources;
 
-  public DiskLoaderStage(File inputPathRoot) {
-    ArrayList<Source> _sources = new ArrayList<>();
-    for (File inputFile : inputPathRoot.listFiles()) {
-      Source source = loadIfPossible(inputFile);
-      if (source == null) {
-        System.err.println("Did not understand the source:" + inputFile.toString());
-      } else {
-        _sources.add(source);
+   public DiskLoaderStage(File inputPathRoot) {
+      ArrayList<Source> _sources = new ArrayList<>();
+      for (File inputFile : inputPathRoot.listFiles()) {
+         Source source = loadIfPossible(inputFile);
+         if (source == null) {
+            System.err.println("Did not understand the source:" + inputFile.toString());
+         } else {
+            _sources.add(source);
+         }
       }
-    }
-    this.sources = Collections.unmodifiableCollection(_sources);
-  }
+      this.sources = Collections.unmodifiableCollection(_sources);
+   }
 
-  private Source loadIfPossible(File inputFile) {
-    String name = inputFile.getName();
-    if (!(name.endsWith(".html") || name.endsWith(".markdown"))) {
-      return null;
-    }
-    try {
-      Source source = new TagsFilteredSource(new BangedSource(inputFile.getName(), new FileReader(inputFile)));
-      if (name.endsWith(".markdown")) {
-        source =  new MarkdownFilteredSource(source, "body");
+   private Source loadIfPossible(File inputFile) {
+      String name = inputFile.getName();
+      if (!(name.endsWith(".html") || name.endsWith(".markdown"))) {
+         return null;
       }
-      return source;
-    } catch (Exception err) {
-      System.err.println("Skipping:" + inputFile);
-      err.printStackTrace();
-      return null;
-    }
-  }
+      try {
+         Source source = new TagsFilteredSource(new BangedSource(inputFile.getName(), new FileReader(inputFile)));
+         if (name.endsWith(".markdown")) {
+            source = new MarkdownFilteredSource(source, "body");
+         }
+         return source;
+      } catch (Exception err) {
+         System.err.println("Skipping:" + inputFile);
+         err.printStackTrace();
+         return null;
+      }
+   }
 
-  @Override
-  public Collection<Source> sources() {
-    return sources;
-  }
+   @Override
+   public Collection<Source> sources() {
+      return sources;
+   }
 }

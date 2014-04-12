@@ -1,10 +1,12 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web.sources;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * Primarily for testing, but this enables one to just "define" a source easily

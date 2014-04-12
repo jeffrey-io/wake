@@ -1,3 +1,6 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web.assemble;
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -15,6 +18,10 @@ public class S3PutObjectTarget implements PutTarget {
    private final AmazonS3 s3;
    private final HashMap<String, String> etags;
 
+   /**
+    * @param bucket the bucket where we intend to upload the files
+    * @param s3     the S3 client
+    */
    public S3PutObjectTarget(final String bucket, final AmazonS3 s3) {
       this.bucket = bucket;
       this.s3 = s3;

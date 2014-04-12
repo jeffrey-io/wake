@@ -1,3 +1,6 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web.stages;
 
 import io.jeffrey.web.sources.SnippetMapSource;
@@ -10,6 +13,7 @@ import java.util.HashMap;
 
 /**
  * Filters out the snippets and then injects them into every non-snippet source
+ * TODO: document annotations
  */
 public class SnippetInjectorStage extends Stage {
    private final Stage prior;

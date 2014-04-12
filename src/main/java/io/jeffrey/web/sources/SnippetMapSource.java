@@ -1,3 +1,6 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web.sources;
 
 import java.util.Map;
@@ -11,7 +14,6 @@ public class SnippetMapSource extends Source {
    private final Source real;
    private final Map<String, String> snippetsHigher;
    private final Map<String, String> snippetsLower;
-   private boolean compiled;
 
    public SnippetMapSource(Source real, Map<String, String> snippetsHigher, Map<String, String> snippetsLower) {
       this.real = real;
@@ -34,8 +36,8 @@ public class SnippetMapSource extends Source {
 
    @Override
    public void populateDomain(Set<String> domain) {
-      real.populateDomain(domain);
       domain.addAll(snippetsHigher.keySet());
+      real.populateDomain(domain);
       domain.addAll(snippetsLower.keySet());
    }
 

@@ -1,12 +1,11 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web.assemble;
-
-import org.apache.commons.codec.binary.Hex;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.security.MessageDigest;
 
 /**
  * Implements a disk backed 'PutTarget'

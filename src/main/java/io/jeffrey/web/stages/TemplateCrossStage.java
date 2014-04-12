@@ -1,3 +1,6 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web.stages;
 
 import io.jeffrey.web.sources.ApplyTemplateBodySource;
@@ -10,6 +13,8 @@ import java.util.HashMap;
 
 /**
  * Split the sources into templates and non-templates; then take the non-templates and utilize the templates (if need be)
+ * TODO: document annotations needed for this to work
+ * TODO: document in a sane way
  */
 public class TemplateCrossStage extends Stage {
    private final Stage priorStage;

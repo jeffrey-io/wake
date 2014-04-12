@@ -1,3 +1,6 @@
+/*
+ * Copyright 2014 Jeffrey M. Barber; see LICENSE for more details
+ */
 package io.jeffrey.web;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -23,6 +26,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The main() which is the entry point to the CLI wake tool
+ */
 public class Wake {
    public static void main(String[] args) throws Exception {
       String configFilename = ".wake";
@@ -47,9 +53,7 @@ public class Wake {
          config = new Config();
       }
 
-      // write your code here
       ArrayList<String> errors = new ArrayList<>();
-
       File input = config.getFile(Config.ConfigFile.Input, errors);
       File merge = config.getFile(Config.ConfigFile.Merge, errors);
       File output = null;
@@ -85,6 +89,7 @@ public class Wake {
       InMemoryAssembler assembly = new InMemoryAssembler(merge, withTemplates);
 
       // build the spelling page
+      // TODO: clean this up
       final StringBuilder spelling = new StringBuilder();
       spelling.append("<pre>");
       assembly.validate((url, html) -> {
