@@ -10,5 +10,5 @@ public interface PutTarget {
    /**
     * upload the file
     */
-   public void upload(String key, String md5, String mime, InputStream body, long contentLength) throws Exception;
+   public void upload(String key, String md5, String contentType, InputStream body, long contentLength) throws Exception;
 }

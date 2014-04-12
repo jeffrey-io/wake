@@ -90,6 +90,19 @@ public class Config {
       return file;
    }
 
+   public enum ConfigKey {
+      Bucket("bucket"),
+      RedirectBucket("redirect-bucket"),
+      AccessKey("akid"),
+      SecretKey("secret");
+
+      private final String key;
+
+      private ConfigKey(final String key) {
+         this.key = key;
+      }
+   }
+
    public enum ConfigFile {
       Input("input", true, false),
       Merge("merge", true, false),
@@ -108,5 +121,16 @@ public class Config {
 
    public File getFile(ConfigFile file, ArrayList<String> errors) {
       return validateMustBeFileThatExists(file.key, file.requireDirectory, file.requireFile, errors);
+   }
+
+   public String get(ConfigKey key, boolean required, ArrayList<String> errors) {
+      if (required) {
+         return validateMustExist(key.key, errors).value;
+      }
+      ConfigValue value = values.get(key.key);
+      if (value == null) {
+         return null;
+      }
+      return value.value;
    }
 }

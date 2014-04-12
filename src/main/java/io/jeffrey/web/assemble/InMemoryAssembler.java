@@ -11,24 +11,35 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
+import java.util.regex.Pattern;
 
 /**
  * This will render the web site and describe a 'TODO' list of things to merge in
  */
 public class InMemoryAssembler {
 
+   private static String getContentType(File source, String key) {
+      String[] parts = key.split(Pattern.quote("."));
+      if (parts.length > 0) {
+         String ext = parts[parts.length - 1].toLowerCase();
+         if ("png".equals(ext)) return "image/png";
+         if ("css".equals(ext)) return "text/css";
+      }
+      return new MimetypesFileTypeMap().getContentType(source);
+   }
+
    private static class MergeStep {
       private final File source;
       private final long length;
       private final String key;
       private final String md5;
-      private final String mime;
+      private final String contentType;
 
       public MergeStep(File source, String key) {
          this.source = source;
          this.length = source.length();
          this.key = key;
-         this.mime = new MimetypesFileTypeMap().getContentType(source);
+         this.contentType = getContentType(source, key);
          try {
             InputStream input = new FileInputStream(source);
             try {
@@ -82,6 +93,10 @@ public class InMemoryAssembler {
       }
    }
 
+   public void put(String url, String body) {
+      html.put(url, body);
+   }
+
    public void validate(BiConsumer<String, String> checker) {
       html.forEach(checker);
    }
@@ -90,7 +105,7 @@ public class InMemoryAssembler {
       for (MergeStep step : merge) {
          FileInputStream input = new FileInputStream(step.source);
          try {
-            target.upload(step.key, step.md5, step.mime, input, step.length);
+            target.upload(step.key, step.md5, step.contentType, input, step.length);
          } finally {
             input.close();
          }
