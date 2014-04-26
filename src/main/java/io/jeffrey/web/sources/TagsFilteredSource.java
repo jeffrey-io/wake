@@ -3,10 +3,7 @@
  */
 package io.jeffrey.web.sources;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +16,7 @@ public class TagsFilteredSource extends Source {
    private final Source source;
    private final String compiledBody;
    private final Object tags;
+   public final Set<String> index;
 
    /**
     * Rewrite tags and count them
@@ -31,12 +29,14 @@ public class TagsFilteredSource extends Source {
       String _compiledBody = source.get("body");
       final Matcher matches = Pattern.compile(TAG_REGEX).matcher(_compiledBody);
       final TreeMap<String, HashMap<String, Object>> counts = new TreeMap<>();
+      this.index = new HashSet<>();
       while (matches.find()) {
          String tag = matches.group(1);
          HashMap<String, Object> value = counts.get(tag);
          if (value == null) {
             value = new HashMap<>();
             value.put("tag", tag);
+            index.add(tag);
             value.put("count", 0);
             value.put("ticks", new ArrayList<String>());
             counts.put(tag, value);
@@ -69,5 +69,6 @@ public class TagsFilteredSource extends Source {
    public void walkComplex(BiConsumer<String, Object> injectComplex) {
       source.walkComplex(injectComplex);
       injectComplex.accept("tags", tags);
+      injectComplex.accept("index-by-tags", index);
    }
 }

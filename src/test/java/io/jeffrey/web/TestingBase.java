@@ -4,6 +4,7 @@ import io.jeffrey.web.sources.HashMapSource;
 import io.jeffrey.web.sources.Source;
 import io.jeffrey.web.stages.SetStage;
 import io.jeffrey.web.stages.Stage;
+import org.junit.Ignore;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
@@ -15,6 +16,7 @@ import java.util.HashSet;
 /**
  * Created by jeffrey on 4/8/14.
  */
+@Ignore
 public class TestingBase {
 
    private static String lastTest = "?";
@@ -50,7 +52,7 @@ public class TestingBase {
       logCheck(key + ":'" + computed + "'='" + expected + "'");
       if (expected.equals(computed))
          return;
-      throw new AssertionError("expected:'" + expected + "', but got '" + computed + "'");
+      throw new AssertionError("expected:\n'" + expected + "'\n, but got \n'" + computed + "'");
    }
 
    protected void assertBodyEvaluate(Source source, String expected) {

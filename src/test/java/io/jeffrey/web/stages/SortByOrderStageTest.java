@@ -3,6 +3,7 @@ package io.jeffrey.web.stages;
 import io.jeffrey.web.TestingBase;
 import io.jeffrey.web.sources.HashMapSource;
 import io.jeffrey.web.sources.Source;
+import org.junit.Test;
 
 import java.util.Collection;
 
@@ -17,6 +18,7 @@ public class SortByOrderStageTest extends TestingBase {
       return source;
    }
 
+   @Test
    public void testOrdering() {
       Stage stage = stageOf(orderedSource(6), orderedSource(1), orderedSource(4), orderedSource(2), orderedSource(0), orderedSource(3), orderedSource(5));
       Collection<Source> sorted = new SortByOrderStage(stage).sources();

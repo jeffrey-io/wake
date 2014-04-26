@@ -1,12 +1,14 @@
 package io.jeffrey.web.sources;
 
 import io.jeffrey.web.TestingBase;
+import org.junit.Test;
 
 /**
  * Created by jeffrey on 4/9/14.
  */
 public class TagsFilteredSourceTest extends TestingBase {
 
+   @Test
    public void testTagDetection() {
       HashMapSource raw = createVerySimpleSource();
       raw.put("body", "&&a&&");
@@ -14,6 +16,7 @@ public class TagsFilteredSourceTest extends TestingBase {
       assertBodyEvaluate(tagged, "<em class=\"tag\">a</em>");
    }
 
+   @Test
    public void testTagDetectionAdj() {
       HashMapSource raw = createVerySimpleSource();
       raw.put("body", "&&a&&&&b&&");
@@ -21,6 +24,7 @@ public class TagsFilteredSourceTest extends TestingBase {
       assertBodyEvaluate(tagged, "<em class=\"tag\">a</em><em class=\"tag\">b</em>");
    }
 
+   @Test
    public void testTagDetectionAdjAndMixed() {
       HashMapSource raw = createVerySimpleSource();
       raw.put("body", "X&&a&&Y&&b&&Z");

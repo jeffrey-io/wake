@@ -1,12 +1,14 @@
 package io.jeffrey.web.sources;
 
 import io.jeffrey.web.TestingBase;
+import org.junit.Test;
 
 /**
  * Created by jeffrey on 4/9/14.
  */
 public class MarkdownFilteredSourceTest extends TestingBase {
 
+   @Test
    public void testHtmlProduction() {
       String body = "ninja\n# header #\n ## header2 ##\n* a\n* b";
       HashMapSource data = createVerySimpleSource();
@@ -23,6 +25,7 @@ public class MarkdownFilteredSourceTest extends TestingBase {
       assertItemization(filtered, "body");
    }
 
+   @Test
    public void testSkipNonFilteredKey() {
       String body = "ninja\n# header #\n ## header2 ##\n* a\n* b";
       HashMapSource data = createVerySimpleSource();

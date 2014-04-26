@@ -1,12 +1,14 @@
 package io.jeffrey.web.sources;
 
 import io.jeffrey.web.TestingBase;
+import org.junit.Test;
 
 /**
  * Created by jeffrey on 4/8/14.
  */
 public class ApplyTemplateBodySourceTest extends TestingBase {
 
+   @Test
    public void testTemplateApplicationResults() {
       HashMapSource data = createVerySimpleSource();
       data.put("something", "XYZ");
@@ -18,6 +20,7 @@ public class ApplyTemplateBodySourceTest extends TestingBase {
       assertItemization(apply, "body", "something", "other");
    }
 
+   @Test
    public void testTemplatingTailRecursionApplication() {
       HashMapSource data = createVerySimpleSource();
       data.put("place", "ABC");
@@ -31,6 +34,7 @@ public class ApplyTemplateBodySourceTest extends TestingBase {
       assertItemization(apply, "body", "something", "other", "place");
    }
 
+   @Test
    public void testTemplatingIsVeryLazy() {
       HashMapSource data = createVerySimpleSource();
       HashMapSource template = createVerySimpleSource();
@@ -46,6 +50,7 @@ public class ApplyTemplateBodySourceTest extends TestingBase {
       assertItemization(apply, "body", "something", "other", "place");
    }
 
+   @Test
    public void testTemplateDefinesDefault() {
       HashMapSource data = createVerySimpleSource();
       data.put("place", "ABC");
@@ -63,6 +68,7 @@ public class ApplyTemplateBodySourceTest extends TestingBase {
       assertEvaluate("place", apply, "ABC");
    }
 
+   @Test
    public void testDetectInfiniteLoop() {
       HashMapSource data = createVerySimpleSource();
       data.put("place", "data:{{{place}}}");

@@ -1,6 +1,7 @@
 package io.jeffrey.web.sources;
 
 import io.jeffrey.web.TestingBase;
+import org.junit.Test;
 
 import java.io.Reader;
 
@@ -9,6 +10,7 @@ import java.io.Reader;
  */
 public class BangedSourceTest extends TestingBase {
 
+   @Test
    public void testBangParsing() throws Exception {
       Reader reader = readerize("#!key=value\nbody");
       BangedSource source = new BangedSource("filename.txt", reader);
@@ -19,6 +21,7 @@ public class BangedSourceTest extends TestingBase {
       assertItemization(source, "key", "body", "name", "url");
    }
 
+   @Test
    public void testOverrideDefaultNameAndUrlPossible() throws Exception {
       Reader reader = readerize("#!key=value\nbody\n#!name=fooness\n#!url=some-faux-folder");
       BangedSource source = new BangedSource("filename.txt", reader);

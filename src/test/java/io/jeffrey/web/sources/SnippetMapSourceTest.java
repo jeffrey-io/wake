@@ -1,6 +1,7 @@
 package io.jeffrey.web.sources;
 
 import io.jeffrey.web.TestingBase;
+import org.junit.Test;
 
 import java.util.HashMap;
 
@@ -9,6 +10,7 @@ import java.util.HashMap;
  */
 public class SnippetMapSourceTest extends TestingBase {
 
+   @Test
    public void testInjectionAndPrecedender() {
       HashMapSource real = createVerySimpleSource();
       real.put("keep", "me");

@@ -79,8 +79,10 @@ public class Wake {
       DiskLoaderStage raw = new DiskLoaderStage(input);
       // sort them for giggles
       SortByOrderStage sorted = new SortByOrderStage(raw);
+      // inject a global index
+      CrossBuildIndexStage indexed = new CrossBuildIndexStage(sorted);
       // inject the topology (connect the pages together according to the one true tree)
-      InjectTopologyStage withTopology = new InjectTopologyStage(sorted);
+      InjectTopologyStage withTopology = new InjectTopologyStage(indexed);
       // inject snippets
       SnippetInjectorStage withSnippets = new SnippetInjectorStage(withTopology);
       // put templates into place

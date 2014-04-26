@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 /**
- * Defines a tree over the content
+ * Defines a tree over the site
  * TODO: document better
  */
 public class InjectTopologyStage extends Stage {
@@ -33,9 +33,9 @@ public class InjectTopologyStage extends Stage {
          attachTo.add(source);
       }
       ArrayList<Source> next = new ArrayList<>();
-      for (Source random : attachTo) {
+      attachTo.forEach((random) -> {
          next.add(new ComplexMapInjectedSource(random, "topology", topology.compile(random)));
-      }
+      });
       return next;
    }
 

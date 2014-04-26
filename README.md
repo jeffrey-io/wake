@@ -26,6 +26,6 @@ version 0.2 (done)
 
 version 0.3 (road map)
 =====================
-* per document table of contents
+* per document table of contents (in progress: 2.1)
 * cross document tagging (indexing)
 * photo gallery support

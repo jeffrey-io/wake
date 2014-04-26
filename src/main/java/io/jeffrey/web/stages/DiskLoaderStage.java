@@ -3,16 +3,14 @@
  */
 package io.jeffrey.web.stages;
 
-import io.jeffrey.web.sources.BangedSource;
-import io.jeffrey.web.sources.MarkdownFilteredSource;
-import io.jeffrey.web.sources.Source;
-import io.jeffrey.web.sources.TagsFilteredSource;
+import io.jeffrey.web.sources.*;
 
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * Defines a Stage that comes from disk; that is, this will load itmes from disk and treat them as sources.
@@ -45,7 +43,13 @@ public class DiskLoaderStage extends Stage {
          if (name.endsWith(".markdown")) {
             source = new MarkdownFilteredSource(source, "body");
          }
-         return source;
+         // TODO: put a common 'is this content or not'
+         boolean isSnippet = "snippet".equalsIgnoreCase(source.get("type"));
+         if (isSnippet) return source;
+         boolean isTemplate = source.get("template-name") != null;
+         if (isTemplate) return source;
+
+         return new TableOfContentsSource(source);
       } catch (Exception err) {
          System.err.println("Skipping:" + inputFile);
          err.printStackTrace();
