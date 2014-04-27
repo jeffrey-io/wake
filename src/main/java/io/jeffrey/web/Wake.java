@@ -7,24 +7,17 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import io.jeffrey.web.analysis.LanguageToolMap;
 import io.jeffrey.web.assemble.DiskPutTarget;
 import io.jeffrey.web.assemble.InMemoryAssembler;
 import io.jeffrey.web.assemble.PutTarget;
 import io.jeffrey.web.assemble.S3PutObjectTarget;
 import io.jeffrey.web.stages.*;
-import org.jsoup.Jsoup;
-import org.jsoup.examples.HtmlToPlainText;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.languagetool.JLanguageTool;
 import org.languagetool.language.AmericanEnglish;
-import org.languagetool.rules.RuleMatch;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The main() which is the entry point to the CLI wake tool
@@ -90,43 +83,8 @@ public class Wake {
       // assemble the manifest
       InMemoryAssembler assembly = new InMemoryAssembler(merge, withTemplates);
 
-      // build the spelling page
-      // TODO: clean this up
-      final StringBuilder spelling = new StringBuilder();
-      spelling.append("<pre>");
-      assembly.validate((url, html) -> {
-         try {
-            spelling.append("<h1>" + url + "</h1>\n");
-            JLanguageTool langTool = new JLanguageTool(new AmericanEnglish());
-            langTool.activateDefaultPatternRules();
-            Document doc = Jsoup.parse(html);
-            Elements elements = doc.select("p");
-            elements.forEach((element) -> {
-               String plain = new HtmlToPlainText().getPlainText(element);
-               plain = plain.replaceAll(" \\s*", " ");
-               plain = plain.replaceAll("\\s* ", " ");
-               try {
-                  List<RuleMatch> matches = langTool.check(plain);
-                  if (matches.size() > 0) {
-                     spelling.append(plain);
-                     spelling.append("\n");
-                     for (RuleMatch match : matches) {
-                        spelling.append("Potential error at line " + match.getLine() + ", column " + match.getColumn() + ": " + match.getMessage());
-                        spelling.append("\n");
-                        spelling.append("Suggested correction: " + match.getSuggestedReplacements());
-                        spelling.append("\n");
-                     }
-                  }
-               } catch (IOException ioe) {
-                  throw new RuntimeException(ioe);
-               }
-            });
-         } catch (Exception err) {
-            System.err.println("Exception checking:" + url);
-            err.printStackTrace();
-         }
-      });
-      spelling.append("</pre>");
+      // perform a bit of analysis
+      String spelling = LanguageToolMap.checkAssemblyAndReport(assembly, new AmericanEnglish());
 
       // let's simply write it to disk
       PutTarget target;
@@ -137,7 +95,7 @@ public class Wake {
          System.out.println("writing to s3");
          target = new S3PutObjectTarget(bucket, s3);
       }
-      assembly.put("__spelling.html", spelling.toString());
+      assembly.put("__spelling.html", spelling);
       // engage!
       assembly.assemble(target);
 
