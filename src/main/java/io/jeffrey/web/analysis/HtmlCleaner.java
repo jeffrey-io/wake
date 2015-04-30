@@ -23,7 +23,11 @@ public class HtmlCleaner {
    public static String getPlainText(Element element) {
       FormattingVisitor formatter = new FormattingVisitor();
       new NodeTraversor(formatter).traverse(element); // walk the DOM, and call .head() and .tail() for each node
-      return formatter.toString();
+      String plain = formatter.toString();
+      plain = plain.replaceAll(" \\s*", " ");
+      plain = plain.replaceAll("\\s* ", " ");
+      plain = plain.replaceAll("\\. ", ". \n");
+      return plain;
    }
 
    // the formatting rules, implemented in a breadth-first DOM traverse
@@ -36,7 +40,7 @@ public class HtmlCleaner {
          if (node instanceof TextNode)
             append(((TextNode) node).text()); // TextNodes carry all user-readable text in the DOM.
          else if (name.equals("li"))
-            append("\n * ");
+            append("\n");
       }
 
       // hit when all of the node's children (if any) have been visited
@@ -45,7 +49,7 @@ public class HtmlCleaner {
          if (name.equals("br"))
             append("\n");
          else if (StringUtil.in(name, "p", "h1", "h2", "h3", "h4", "h5"))
-            append("\n\n");
+            append("\n");
       }
 
       // appends text to the string builder with a simple word wrap method
@@ -53,6 +57,7 @@ public class HtmlCleaner {
          if (text.equals(" ") &&
                (accum.length() == 0 || StringUtil.in(accum.substring(accum.length() - 1), " ", "\n")))
             return; // don't accumulate long runs of empty spaces
+
          accum.append(text);
       }
 

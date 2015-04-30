@@ -28,14 +28,20 @@ public class LanguageToolMap {
                   Elements elements = doc.select("p");
                   elements.forEach((element) -> {
                      String plain = HtmlCleaner.getPlainText(element);
-                     plain = plain.replaceAll(" \\s*", " ");
-                     plain = plain.replaceAll("\\s* ", " ");
+
                      try {
                         List<RuleMatch> matches = langTool.check(plain);
                         if (matches.size() > 0) {
-                           spelling.append(plain);
-                           spelling.append("\n");
+                           boolean shown = false;
                            for (RuleMatch match : matches) {
+                              // TODO: learn how to remove rules
+                              if(match.getMessage().contains("you repeated a whitespace"))
+                                 continue;
+                              if(!shown) {
+                                 spelling.append(plain);
+                                 spelling.append("\n");
+                                 shown = true;
+                              }
                               spelling.append("Potential error at line " + match.getLine() + ", column " + match.getColumn() + ": " + match.getMessage());
                               spelling.append("\n");
                               spelling.append("Suggested correction: " + match.getSuggestedReplacements());
