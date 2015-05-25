@@ -33,6 +33,8 @@ public class TagsFilteredSource extends Source {
     String _compiledBody = source.get("body");
     final Matcher matches = Pattern.compile(TAG_REGEX).matcher(_compiledBody);
     final TreeMap<String, HashMap<String, Object>> counts = new TreeMap<>();
+    final TreeMap<String, ArrayList<String>> ticks = new TreeMap<>();
+    
     this.index = new HashSet<>();
     while (matches.find()) {
       final String tag = matches.group(1);
@@ -42,12 +44,14 @@ public class TagsFilteredSource extends Source {
         value.put("tag", tag);
         index.add(tag);
         value.put("count", 0);
-        value.put("ticks", new ArrayList<String>());
+        ArrayList<String> myticks = new ArrayList<String>();
+        value.put("ticks", myticks);
+        ticks.put(tag, myticks);
         counts.put(tag, value);
         replacements.put("&&" + tag + "&&", "<em class=\"tag\">" + tag + "</em>");
       }
       value.put("count", (int) value.get("count") + 1);
-      ((ArrayList<String>) value.get("ticks")).add(".");
+      ticks.get(tag).add(".");
     }
     for (final String tag : replacements.keySet()) {
       _compiledBody = _compiledBody.replaceAll(Pattern.quote(tag), replacements.get(tag));

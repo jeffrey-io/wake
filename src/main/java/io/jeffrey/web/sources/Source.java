@@ -16,6 +16,10 @@ import java.util.function.BiConsumer;
  */
 public abstract class Source implements Comparable<Source> {
 
+  public static enum SourceType {
+    Snippet, Template, Page
+  }
+
   @Override
   public int compareTo(final Source o) {
     return Long.compare(this.order(), o.order());
@@ -28,6 +32,34 @@ public abstract class Source implements Comparable<Source> {
    * @return
    */
   public abstract String get(String key);
+
+  public SourceType getType() {
+    if ("snippet".equalsIgnoreCase(get("type"))) {
+      return SourceType.Snippet;
+    }
+    if (null != get("template-name")) {
+      return SourceType.Template;
+    }
+    return SourceType.Page;
+  }
+
+  /**
+   * Test whether or not the key has a boolean value like yes or true
+   */
+  public boolean testBoolean(String key) {
+    String value = get(key);
+    if(value == null) {
+      return false;
+    }
+    value = value.toLowerCase();
+    if (value.length() == 0) {
+      return false;
+    }
+    if ("1".equals(value)) {
+      return true;
+    }
+    return value.startsWith("t")|| value.startsWith("y");
+  }
 
   /**
    * Get the order from the object; if you sort this

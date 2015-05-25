@@ -94,7 +94,7 @@ public class Wake {
     // clean up the HTML
     final CompressHTMLStage clean = new CompressHTMLStage(linked);
     // assemble the manifest
-    final InMemoryAssembler assembly = new InMemoryAssembler(merge, clean);
+    final InMemoryAssembler assembly = new InMemoryAssembler(merge, clean, "http://" + bucket + "/");
 
     // perform a bit of analysis
     final String spelling = LanguageToolMap.checkAssemblyAndReport(assembly, new AmericanEnglish());

@@ -5,6 +5,7 @@ package io.jeffrey.web.stages;
 
 import io.jeffrey.web.sources.ApplyTemplateBodySource;
 import io.jeffrey.web.sources.Source;
+import io.jeffrey.web.sources.Source.SourceType;
 import io.jeffrey.web.sources.SourceException;
 
 import java.util.ArrayList;
@@ -29,9 +30,8 @@ public class TemplateCrossStage extends Stage {
     final Collection<Source> priorSources = priorStage.sources();
     final ArrayList<Source> nonTemplates = new ArrayList<>();
     for (final Source source : priorSources) {
-      final String templateName = source.get("template-name");
-      if (templateName != null) {
-        templates.put(templateName, source);
+      if (source.getType() == SourceType.Template) {
+        templates.put(source.get("template-name"), source);
       } else {
         nonTemplates.add(source);
       }

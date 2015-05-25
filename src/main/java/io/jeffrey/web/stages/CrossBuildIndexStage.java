@@ -2,6 +2,7 @@ package io.jeffrey.web.stages;
 
 import io.jeffrey.web.sources.ComplexMapInjectedSource;
 import io.jeffrey.web.sources.Source;
+import io.jeffrey.web.sources.Source.SourceType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,10 +27,15 @@ public class CrossBuildIndexStage extends Stage {
   }
 
   private void add(final Source source, final HashSet<String> docIndex) {
-    final HashMap<String, String> sourceRef = new HashMap<>();
-    sourceRef.put("url", source.get("url"));
-    sourceRef.put("title", source.get("title"));
-    urls.add(sourceRef);
+    if (source.testBoolean("noindex")) {
+      return;
+    }
+    if (source.getType() == SourceType.Page) {
+      final HashMap<String, String> sourceRef = new HashMap<>();
+      sourceRef.put("url", source.get("url"));
+      sourceRef.put("title", source.get("title"));
+      urls.add(sourceRef);
+    }
 
     for (final String keyword : docIndex) {
       ArrayList<HashMap<String, String>> keywordList = index.get(keyword);

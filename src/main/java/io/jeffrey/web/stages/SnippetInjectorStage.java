@@ -5,6 +5,7 @@ package io.jeffrey.web.stages;
 
 import io.jeffrey.web.sources.SnippetMapSource;
 import io.jeffrey.web.sources.Source;
+import io.jeffrey.web.sources.Source.SourceType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,11 +28,10 @@ public class SnippetInjectorStage extends Stage {
     final ArrayList<Source> preSnippetInjector = new ArrayList<>();
     final HashMap<String, String> snippets = new HashMap<>();
     for (final Source source : prior.sources()) {
-      final boolean isSnippet = "snippet".equalsIgnoreCase(source.get("type"));
-      if (!isSnippet) {
-        preSnippetInjector.add(source);
-      } else {
+      if (source.getType() == SourceType.Snippet) {
         snippets.put(source.get("name"), source.get("body"));
+      } else {
+        preSnippetInjector.add(source);
       }
     }
     final ArrayList<Source> next = new ArrayList<>();

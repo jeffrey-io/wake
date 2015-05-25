@@ -1,5 +1,9 @@
 package io.jeffrey.web.stages;
 
+/**
+ * This helps clean up the final HTML final, so it is optimized for machines and not humans.
+ * @author jeffrey
+ */
 public class CompressHTMLStage extends BodyFinalizerStage {
 
   private static String trimLines(final String html) {
@@ -15,9 +19,9 @@ public class CompressHTMLStage extends BodyFinalizerStage {
     super(prior, (html) -> {
       String cleaned = trimLines(html);
       // white space around tags
-        cleaned = cleaned.replaceAll("\\s+<", " <");
-        cleaned = cleaned.replaceAll(">\\s+", "> ");
-        return cleaned;
-      });
+      cleaned = cleaned.replaceAll("\\s+<", " <");
+      cleaned = cleaned.replaceAll(">\\s+", "> ");
+      return cleaned;
+    });
   }
 }

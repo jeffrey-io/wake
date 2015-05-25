@@ -39,24 +39,24 @@ public class LanguageToolMap {
               boolean shown = false;
               for (final RuleMatch match : matches) {
                 // TODO: learn how to remove rules
-                if (match.getMessage().contains("you repeated a whitespace")) {
-                  continue;
-                }
-                if (!shown) {
-                  spelling.append(plain);
-                  spelling.append("\n");
-                  shown = true;
-                }
-                spelling.append("Potential error at line " + match.getLine() + ", column " + match.getColumn() + ": " + match.getMessage());
-                spelling.append("\n");
-                spelling.append("Suggested correction: " + match.getSuggestedReplacements());
-                spelling.append("\n");
-              }
+            if (match.getMessage().contains("you repeated a whitespace")) {
+              continue;
             }
-          } catch (final IOException ioe) {
-            throw new RuntimeException(ioe);
+            if (!shown) {
+              spelling.append(plain);
+              spelling.append("\n");
+              shown = true;
+            }
+            spelling.append("Potential error at line " + match.getLine() + ", column " + match.getColumn() + ": " + match.getMessage());
+            spelling.append("\n");
+            spelling.append("Suggested correction: " + match.getSuggestedReplacements());
+            spelling.append("\n");
           }
-        })  ;
+        }
+      } catch (final IOException ioe) {
+        throw new RuntimeException(ioe);
+      }
+    })  ;
       } catch (final Exception err) {
         System.err.println("Exception checking:" + url);
         err.printStackTrace();

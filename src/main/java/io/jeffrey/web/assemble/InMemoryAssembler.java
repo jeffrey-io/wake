@@ -74,12 +74,19 @@ public class InMemoryAssembler {
   private final ArrayList<MergeStep>    merge;
   private final HashMap<String, String> html;
   private final StringBuilder           audit;
+  private final String                  sitemapPrefix;
+  private final StringBuilder           sitemap;
 
-  public InMemoryAssembler(final File mergePath, final Stage stage) {
+  public InMemoryAssembler(final File mergePath, final Stage stage, String sitemapPrefix) {
     this.merge = new ArrayList<>();
     this.html = new HashMap<>();
     this.audit = new StringBuilder();
     this.audit.append("<table>");
+    this.sitemap = new StringBuilder();
+    sitemap.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    sitemap.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
+
+    this.sitemapPrefix = sitemapPrefix;
     registerStage(stage);
     registerMerge(mergePath, mergePath);
   }
@@ -97,9 +104,15 @@ public class InMemoryAssembler {
       final byte[] value = html.get(url).getBytes("UTF-8");
       target.upload(url, DigestUtils.md5Hex(value), "text/html", new ByteArrayInputStream(value), value.length);
     }
-    final byte[] value = audit.toString().getBytes("UTF-8");
-    target.upload("__audit.html", DigestUtils.md5Hex(value), "text/html", new ByteArrayInputStream(value), value.length);
+    final byte[] auditBytes = audit.toString().getBytes("UTF-8");
+    target.upload("__audit.html", DigestUtils.md5Hex(auditBytes), "text/html", new ByteArrayInputStream(auditBytes), auditBytes.length);
 
+    sitemap.append("</urlset>");
+    final byte[] sitemapBytes = sitemap.toString().getBytes("UTF-8");
+    target.upload("sitemap.xml", DigestUtils.md5Hex(sitemapBytes), "application/xml", new ByteArrayInputStream(sitemapBytes), sitemapBytes.length);
+    
+    final byte[] robotsBytes = "User-agent: *\nDisallow:\n".getBytes("UTF-8");
+    target.upload("robots.txt", DigestUtils.md5Hex(robotsBytes), "text/text", new ByteArrayInputStream(robotsBytes), robotsBytes.length);
   }
 
   public void put(final String url, final String body) {
@@ -127,6 +140,12 @@ public class InMemoryAssembler {
       final String url = source.get("url");
       final String body = source.get("body");
       html.put(url, body);
+      if (!source.testBoolean("noindex")) {
+        sitemap.append(" <url>\n");
+        sitemap.append("  <loc>" + sitemapPrefix + url + "</loc>\n");
+        sitemap.append("  <changefreq>daily</changefreq>\n");
+        sitemap.append(" </url>\n");
+      }
       audit.append("<tr><td>" + url + "</td><td>" + source.get("title") + "</td><td>" + source.get("audit") + "<br/>");
     }
   }
