@@ -1,13 +1,23 @@
 package io.jeffrey.web.stages;
 
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
-
 public class CompressHTMLStage extends BodyFinalizerStage {
-  public CompressHTMLStage(Stage prior) {
+
+  private static String trimLines(final String html) {
+    final StringBuilder out = new StringBuilder();
+    final String[] lines = html.split("\n");
+    for (final String line : lines) {
+      out.append(line.trim() + "\n");
+    }
+    return out.toString();
+  }
+
+  public CompressHTMLStage(final Stage prior) {
     super(prior, (html) -> {
-      return html;
-      // return Jsoup.clean(html, Whitelist.relaxed());
-    });
+      String cleaned = trimLines(html);
+      // white space around tags
+        cleaned = cleaned.replaceAll("\\s+<", " <");
+        cleaned = cleaned.replaceAll(">\\s+", "> ");
+        return cleaned;
+      });
   }
 }

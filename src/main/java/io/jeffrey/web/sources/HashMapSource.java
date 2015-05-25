@@ -13,28 +13,28 @@ import java.util.function.BiConsumer;
  */
 public class HashMapSource extends Source {
 
-   private final HashMap<String, String> data;
+  private final HashMap<String, String> data;
 
-   public HashMapSource(Map<String, String> map) {
-      this.data = new HashMap<>(map);
-   }
+  public HashMapSource(final Map<String, String> map) {
+    this.data = new HashMap<>(map);
+  }
 
-   public HashMapSource put(String key, String value) {
-      this.data.put(key, value);
-      return this;
-   }
+  @Override
+  public String get(final String key) {
+    return data.get(key);
+  }
 
-   @Override
-   public String get(String key) {
-      return data.get(key);
-   }
+  @Override
+  public void populateDomain(final Set<String> domain) {
+    domain.addAll(data.keySet());
+  }
 
-   @Override
-   public void populateDomain(Set<String> domain) {
-      domain.addAll(data.keySet());
-   }
+  public HashMapSource put(final String key, final String value) {
+    this.data.put(key, value);
+    return this;
+  }
 
-   @Override
-   public void walkComplex(BiConsumer<String, Object> injectComplex) {
-   }
+  @Override
+  public void walkComplex(final BiConsumer<String, Object> injectComplex) {
+  }
 }

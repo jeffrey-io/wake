@@ -14,17 +14,17 @@ import java.util.Comparator;
  * Sorts the sources by their order property
  */
 public class SortByOrderStage extends Stage {
-   private final Stage priorStage;
+  private final Stage priorStage;
 
-   public SortByOrderStage(Stage priorStage) {
-      this.priorStage = priorStage;
-   }
+  public SortByOrderStage(final Stage priorStage) {
+    this.priorStage = priorStage;
+  }
 
-   @Override
-   public Collection<Source> sources() {
-      ArrayList<Source> sources = new ArrayList<>();
-      sources.addAll(priorStage.sources());
-      Collections.sort(sources, Comparator.comparingLong((item) -> item.order()));
-      return sources;
-   }
+  @Override
+  public Collection<Source> sources() {
+    final ArrayList<Source> sources = new ArrayList<>();
+    sources.addAll(priorStage.sources());
+    Collections.sort(sources, Comparator.comparingLong((item) -> item.order()));
+    return sources;
+  }
 }

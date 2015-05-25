@@ -13,14 +13,14 @@ import java.util.Set;
  */
 public class SetStage extends Stage {
 
-   private final Set<Source> sources;
+  private final Set<Source> sources;
 
-   public SetStage(final Set<Source> sources) {
-      this.sources = sources;
-   }
+  public SetStage(final Set<Source> sources) {
+    this.sources = sources;
+  }
 
-   @Override
-   public Collection<Source> sources() {
-      return sources;
-   }
+  @Override
+  public Collection<Source> sources() {
+    return sources;
+  }
 }

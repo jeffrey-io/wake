@@ -17,13 +17,13 @@ public class BodyFinalizerSource extends Source {
   private final Source      source;
   private final BodyMutator mutator;
 
-  public BodyFinalizerSource(Source source, BodyMutator mutator) {
+  public BodyFinalizerSource(final Source source, final BodyMutator mutator) {
     this.source = source;
     this.mutator = mutator;
   }
 
   @Override
-  public String get(String key) {
+  public String get(final String key) {
     String result = source.get(key);
     if (key.equals("body")) {
       result = mutator.mutate(result);
@@ -32,12 +32,12 @@ public class BodyFinalizerSource extends Source {
   }
 
   @Override
-  public void populateDomain(Set<String> domain) {
+  public void populateDomain(final Set<String> domain) {
     source.populateDomain(domain);
   }
 
   @Override
-  public void walkComplex(BiConsumer<String, Object> injectComplex) {
+  public void walkComplex(final BiConsumer<String, Object> injectComplex) {
     source.walkComplex(injectComplex);
   }
 }

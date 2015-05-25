@@ -17,18 +17,18 @@ public class LinkageSource extends Source {
   private final Source                  source;
   private final HashMap<String, Source> links;
 
-  public LinkageSource(Source source, HashMap<String, Source> links) {
+  public LinkageSource(final Source source, final HashMap<String, Source> links) {
     this.source = source;
     this.links = links;
   }
 
   @Override
-  public String get(String key) {
+  public String get(final String key) {
     if ("body".equals(key)) {
       String body = source.get(key);
-      for(Entry<String, Source> e : links.entrySet()) {
-        String search = Pattern.quote("|>" + e.getKey() + "|");
-        String replacement = "<a href=\"/" + e.getValue().get("url") + "\">" + e.getValue().get("title") + "</a>";
+      for (final Entry<String, Source> e : links.entrySet()) {
+        final String search = Pattern.quote("|>" + e.getKey() + "|");
+        final String replacement = "<a href=\"/" + e.getValue().get("url") + "\">" + e.getValue().get("title") + "</a>";
         body = body.replaceAll(search, replacement);
       }
       return body;
@@ -37,12 +37,12 @@ public class LinkageSource extends Source {
   }
 
   @Override
-  public void populateDomain(Set<String> domain) {
+  public void populateDomain(final Set<String> domain) {
     source.populateDomain(domain);
   }
 
   @Override
-  public void walkComplex(BiConsumer<String, Object> injectComplex) {
+  public void walkComplex(final BiConsumer<String, Object> injectComplex) {
     source.walkComplex(injectComplex);
   }
 

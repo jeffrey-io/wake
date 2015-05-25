@@ -17,16 +17,16 @@ public class LinkageStage extends Stage {
 
   private final Stage stage;
 
-  public LinkageStage(Stage stage) {
+  public LinkageStage(final Stage stage) {
     this.stage = stage;
   }
 
   @Override
   public Collection<Source> sources() {
-    ArrayList<Source> next = new ArrayList<>();
-    HashMap<String, Source> links = new HashMap<>();
-    for (Source src : stage.sources()) {
-      String name = src.get("name");
+    final ArrayList<Source> next = new ArrayList<>();
+    final HashMap<String, Source> links = new HashMap<>();
+    for (final Source src : stage.sources()) {
+      final String name = src.get("name");
       if (name != null) {
         links.put(name, src);
       }

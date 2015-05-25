@@ -12,5 +12,5 @@ import java.util.Collection;
  */
 public abstract class Stage {
 
-   public abstract Collection<Source> sources();
+  public abstract Collection<Source> sources();
 }

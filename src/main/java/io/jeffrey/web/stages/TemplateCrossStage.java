@@ -17,40 +17,40 @@ import java.util.HashMap;
  * TODO: document in a sane way
  */
 public class TemplateCrossStage extends Stage {
-   private final Stage priorStage;
+  private final Stage priorStage;
 
-   public TemplateCrossStage(Stage priorStage) {
-      this.priorStage = priorStage;
-   }
+  public TemplateCrossStage(final Stage priorStage) {
+    this.priorStage = priorStage;
+  }
 
-   @Override
-   public Collection<Source> sources() {
-      HashMap<String, Source> templates = new HashMap<>();
-      Collection<Source> priorSources = priorStage.sources();
-      ArrayList<Source> nonTemplates = new ArrayList<>();
-      for (Source source : priorSources) {
-         String templateName = source.get("template-name");
-         if (templateName != null) {
-            templates.put(templateName, source);
-         } else {
-            nonTemplates.add(source);
-         }
+  @Override
+  public Collection<Source> sources() {
+    final HashMap<String, Source> templates = new HashMap<>();
+    final Collection<Source> priorSources = priorStage.sources();
+    final ArrayList<Source> nonTemplates = new ArrayList<>();
+    for (final Source source : priorSources) {
+      final String templateName = source.get("template-name");
+      if (templateName != null) {
+        templates.put(templateName, source);
+      } else {
+        nonTemplates.add(source);
       }
-      ArrayList<Source> notTemplatesWithTemplatesOrNot = new ArrayList<>();
-      for (Source nonTemplate : nonTemplates) {
-         String templateToUse = nonTemplate.get("use-template");
-         if (templateToUse == null || "$".equals(templateToUse)) {
-            // it is both the data AND the template
-            notTemplatesWithTemplatesOrNot.add(new ApplyTemplateBodySource(nonTemplate, nonTemplate));
-         } else {
-            Source template = templates.get(templateToUse);
-            if (template == null) {
-               throw new SourceException("source specified the template '" + templateToUse + "' that does not exist");
-            } else {
-               notTemplatesWithTemplatesOrNot.add(new ApplyTemplateBodySource(nonTemplate, template));
-            }
-         }
+    }
+    final ArrayList<Source> notTemplatesWithTemplatesOrNot = new ArrayList<>();
+    for (final Source nonTemplate : nonTemplates) {
+      final String templateToUse = nonTemplate.get("use-template");
+      if (templateToUse == null || "$".equals(templateToUse)) {
+        // it is both the data AND the template
+        notTemplatesWithTemplatesOrNot.add(new ApplyTemplateBodySource(nonTemplate, nonTemplate));
+      } else {
+        final Source template = templates.get(templateToUse);
+        if (template == null) {
+          throw new SourceException("source specified the template '" + templateToUse + "' that does not exist");
+        } else {
+          notTemplatesWithTemplatesOrNot.add(new ApplyTemplateBodySource(nonTemplate, template));
+        }
       }
-      return notTemplatesWithTemplatesOrNot;
-   }
+    }
+    return notTemplatesWithTemplatesOrNot;
+  }
 }
