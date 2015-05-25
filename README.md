@@ -15,7 +15,7 @@ I realized that I hated html with a passion for writing content, so I slapped in
 markdown. Then I started adding navigation, so I added snippets and handler bars.
 Not to long after that, I had what you see now.
 
-version 0.2 (done)
+version 0.2.2 (done)
 ==================
 * universal templates
 * snippets/fragments
@@ -23,6 +23,8 @@ version 0.2 (done)
 * per document tagging
 * navigation/topology
 * very basic language tool integration
+* cross page linking
+* directory support
 
 version 0.3 (road map)
 =====================
