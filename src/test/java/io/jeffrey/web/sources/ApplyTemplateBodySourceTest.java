@@ -33,6 +33,17 @@ public class ApplyTemplateBodySourceTest extends TestingBase {
       assertBodyEvaluate(apply, "[ABC]=what? AC/DC");
       assertItemization(apply, "body", "something", "other", "place");
    }
+   
+   @Test
+   public void testTemplatingWithChildBody() {
+      HashMapSource data = createVerySimpleSource();
+      data.put("body", "<a href=\"http://FOO\">");
+      HashMapSource template = createVerySimpleSource();
+      template.put("body", "{{{body}}}");
+      ApplyTemplateBodySource apply = new ApplyTemplateBodySource(data, template);
+      assertBodyEvaluate(apply, "<a href=\"http://FOO\">");
+      assertItemization(apply, "body");
+   }
 
    @Test
    public void testTemplatingIsVeryLazy() {

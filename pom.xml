@@ -6,7 +6,7 @@
 
     <groupId>wake</groupId>
     <artifactId>wake</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.2</version>
 
     <dependencies>
         <dependency>
@@ -23,11 +23,6 @@
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk</artifactId>
             <version>1.7.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.languagetool</groupId>
-            <artifactId>languagetool</artifactId>
-            <version>2.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.languagetool</groupId>

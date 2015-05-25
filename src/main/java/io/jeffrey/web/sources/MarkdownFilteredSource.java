@@ -8,6 +8,7 @@ import org.markdown4j.Markdown4jProcessor;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.regex.Pattern;
 
 /**
  * Apply markdown to the given keys
@@ -37,7 +38,12 @@ public class MarkdownFilteredSource extends Source {
    public String get(String key) {
       if (markdownKeys.contains(key)) {
          try {
-            return markdown.process(source.get(key));
+            String prior = source.get(key);
+            String next = markdown.process(prior);
+            // TODO: dig deep into markdown and fix this stupid thing, or rip out markdown4j since it is really old
+            next = next.replaceAll(Pattern.quote("http: //"), "http://");
+            next = next.replaceAll(Pattern.quote("https: //"), "https://");
+            return next;
          } catch (IOException impossible) {
             throw new RuntimeException(impossible);
          }

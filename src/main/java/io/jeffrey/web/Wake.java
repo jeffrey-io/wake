@@ -80,8 +80,12 @@ public class Wake {
       SnippetInjectorStage withSnippets = new SnippetInjectorStage(withTopology);
       // put templates into place
       TemplateCrossStage withTemplates = new TemplateCrossStage(withSnippets);
+      // enable linkage between pages
+      LinkageStage linked = new LinkageStage(withTemplates);
+      // clean up the HTML
+      CompressHTMLStage clean = new CompressHTMLStage(linked);
       // assemble the manifest
-      InMemoryAssembler assembly = new InMemoryAssembler(merge, withTemplates);
+      InMemoryAssembler assembly = new InMemoryAssembler(merge, clean);
 
       // perform a bit of analysis
       String spelling = LanguageToolMap.checkAssemblyAndReport(assembly, new AmericanEnglish());
