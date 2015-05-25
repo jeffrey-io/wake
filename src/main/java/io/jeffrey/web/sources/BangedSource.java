@@ -7,8 +7,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.regex.Pattern;
 
 /**
  * This takes a file and then parses out the she-bangs (#!) which are used for injecting key value pairs
@@ -16,7 +14,6 @@ import java.util.regex.Pattern;
  * TODO: factor into "ReaderSource" and do the line by line analysis here
  */
 public class BangedSource extends Source {
-   private static final String DOT = Pattern.quote(".");
    private final HashMap<String, String> values;
    private int currentLineNumber;
 
@@ -28,13 +25,13 @@ public class BangedSource extends Source {
     * @throws IOException
     */
    public BangedSource(String filename, Reader input) throws IOException {
-      String[] splitName = filename.split(DOT);
-      // TODO: change to remove the extention rather than cutting this up
-      // TODO: verify the extension makes sense
-      String name = splitName[0];
+      int lastDotK = filename.lastIndexOf('.');
+      String ext = filename.substring(lastDotK + 1);
+      String name = filename.substring(0, lastDotK);
       this.values = new HashMap<>();
       values.put("name", name);
       values.put("url", name + ".html");
+      values.put("ext", ext);
       BufferedReader reader = new BufferedReader(input);
       try {
          final StringBuilder body = new StringBuilder();

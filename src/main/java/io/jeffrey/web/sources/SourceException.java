@@ -7,8 +7,9 @@ package io.jeffrey.web.sources;
  * Things did not go so well in the land of rendering sources
  */
 public class SourceException extends RuntimeException {
+	private static final long serialVersionUID = 921111150445411032L;
 
-   public SourceException(String message) {
-      super(message);
-   }
+	public SourceException(String message) {
+		super(message);
+	}
 }

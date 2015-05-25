@@ -3,7 +3,6 @@
  */
 package io.jeffrey.web.sources;
 
-import com.amazonaws.services.elasticbeanstalk.model.TooManyConfigurationTemplatesException;
 import org.jsoup.Jsoup;
 import org.jsoup.examples.HtmlToPlainText;
 import org.jsoup.nodes.Document;

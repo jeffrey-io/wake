@@ -16,12 +16,10 @@ import java.util.HashMap;
 public class Config {
 
    private static class ConfigValue {
-      public final String key;
       public final String value;
       public final int lineNo;
 
-      public ConfigValue(String key, String value, int lineNo) {
-         this.key = key;
+      public ConfigValue(String value, int lineNo) {
          this.value = value;
          this.lineNo = lineNo;
       }
@@ -33,9 +31,9 @@ public class Config {
       this.values = new HashMap<>();
 
       // defaults
-      this.values.put("input", new ConfigValue("input", "in", -1));
-      this.values.put("merge", new ConfigValue("merge", "merge", -1));
-      this.values.put("output", new ConfigValue("output", "out", -1));
+      this.values.put("input", new ConfigValue("in", -1));
+      this.values.put("merge", new ConfigValue("merge", -1));
+      this.values.put("output", new ConfigValue("out", -1));
    }
 
    public Config(Reader rawReader) throws IOException {
@@ -57,7 +55,7 @@ public class Config {
          if (key.length() == 0)
             continue;
          String val = ln.substring(kEq + 1).trim();
-         values.put(key, new ConfigValue(key, val, lineNo));
+         values.put(key, new ConfigValue(val, lineNo));
       }
    }
 

@@ -10,7 +10,6 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 
 /**
  * Defines a Stage that comes from disk; that is, this will load itmes from disk and treat them as sources.
